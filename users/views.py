@@ -5,13 +5,12 @@ from rest_framework import decorators
 
 from django.db.models import Q
 from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
-from rest_framework import permissions
+from rest_framework import permissions, viewsets,status
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
-from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework import status
+
 from random import choice
-from .serializer import UserRegSerializer, UserDetailSerializer
+from .serializer import UserRegSerializer, UserDetailSerializer, ChangePasswordSerializer
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from .mixins import BaseUserViewSetMixin
 from django.contrib.auth import get_user_model

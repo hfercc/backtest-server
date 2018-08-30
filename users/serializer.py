@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from rest_framework import serializers
+from rest_framework import serializers, status
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth import get_user_model
 from .models import UserProfile
+from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 User = get_user_model()
 class UserRegSerializer(serializers.ModelSerializer):
     username = serializers.CharField(label=u"用户名", help_text=u"用户名", required=True, allow_blank=False,
@@ -33,25 +35,17 @@ class UserDetailSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
 
     old = serializers.CharField(required=True)
-    new1 = serializers.CharField(required=True)
-    new2 = serializers.CharField(required=True)
-
+    new = serializers.CharField(required=True)
     def validate_old(self, value):
         username = self.context['request'].user.username
-
         if authenticate(username=username, password=value) is None:
             raise serializers.ValidationError(
-                'Old password mismatched!')
+                'Old password mismatched!', code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return value
 
     def validate(self, data):
-
-        new, new2 = data['new1'], data['new2']
-        if new and new2 and new != new2:
-            raise serializers.ValidationError(
-                'New passwords mismatched!')
-
+        new = data['new']
         validate_password(new)
 
         return data
@@ -59,7 +53,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = self.context['request'].user
 
-        user.set_password(validated_data['new1'])
+        user.set_password(validated_data['new'])
         user.save()
 
         return user

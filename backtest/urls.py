@@ -21,7 +21,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from report.views import ReportsViewSet, upload_report
 from rest_framework_jwt import views
-from users.views import UserViewset, UserLogin
+from users.views import UserViewset, UserLogin, change_password
 router = DefaultRouter()
 router.register(r'report', ReportsViewSet, base_name="reports")
 router.register(r'^users', UserViewset, base_name="users")
@@ -31,5 +31,6 @@ urlpatterns = [
     path('media/<path:path>', serve, {'document_root':MEDIA_ROOT}),
     path('',include(router.urls)),
     path('login/', UserLogin.as_view()),
-    path('upload/', upload_report, name='upload-report')
+    path('upload/', upload_report, name='upload-report'),
+    path('users/change_password/', change_password, name='change-password')
 ]
