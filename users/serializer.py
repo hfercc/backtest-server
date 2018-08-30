@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth import get_user_model
 from .models import UserProfile
 User = get_user_model()
 class UserRegSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(label="用户名", help_text="用户名", required=True, allow_blank=False,
-                                     validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在")])
+    username = serializers.CharField(label=u"用户名", help_text=u"用户名", required=True, allow_blank=False,
+                                     validators=[UniqueValidator(queryset=User.objects.all(), message=u"用户已经存在")])
     password = serializers.CharField(
         style={'input_type': 'password'},label=True,write_only=True
     )
-    email = serializers.CharField(label="邮件地址",write_only=True, allow_blank=True)
+    email = serializers.CharField(label=u"邮件地址",write_only=True, allow_blank=True)
 
     def create(self, validated_data):
         user = super(UserRegSerializer, self).create(validated_data=validated_data)
