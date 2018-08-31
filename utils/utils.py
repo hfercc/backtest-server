@@ -8,6 +8,20 @@ import os
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.files import File as FileWrapper
+import zipfile
+from backtest.settings import MEDIA_ROOT, BASE_DIR, PROJECT_ROOT
+import shutil
+
+from glob import glob
+libs_dir = os.path.join(default_storage.path(MEDIA_ROOT),'libs')
+base_dir = '/'.join(PROJECT_ROOT.split('/')[:-1])
+def get_path(report):
+    base_dir = '/'.join(PROJECT_ROOT.split('/')[:-1])
+    return os.path.join(base_dir, report.file[1:])
+
+def get_dir(path):
+    return os.path.dirname(path)
+
 def store_file(fd, user, alpha_name):
     """
     Given a file-like object and stores it with default storage system.
@@ -21,3 +35,43 @@ def store_file(fd, user, alpha_name):
     name = default_storage.save(os.path.join(user.username, alpha_name, os.path.basename(fd.name)), fd)
 
     return name, mimetypes.guess_type(name)[0] or ''
+
+def unzip(report):
+    full_path = get_path(report)
+    f = zipfile.ZipFile(full_path, 'r')
+    path_to = get_dir(full_path)
+    for file in f.namelist():
+        if file in ['config.xml','report.pdf', report.alpha_name + '.py']:
+            f.extract(file, path_to)
+    f.close()
+
+def validate_files(report):
+    folder = get_dir((get_path(report)))
+    for file in [report.alpha_name + '.py','config.xml','report.pdf']:
+        if not os.path.exists(os.path.join(folder, file)):
+            return False
+    return True
+
+def compile_alpha(report):
+    from .setup import _compile_alpha
+    work_path = os.path.join(base_dir, 'temp_' + report.author.username)
+    if not os.path.exists(work_path):
+        os.mkdir(work_path)
+    full_path = get_dir(get_path(report))
+    os.chdir(work_path)
+    print(os.path.join(full_path, report.alpha_name + '.py'))
+    _compile_alpha(os.path.join(full_path, report.alpha_name + '.py'))
+    file_to_move = glob(os.path.join(work_path,'build/lib*/*.so'))
+    if (len(file_to_move) > 0):
+        if os.path.exists(os.path.join(full_path,'alpha')):
+            shutil.rmtree(os.path.join(full_path,'alpha'))
+        os.mkdir(os.path.join(full_path,'alpha'))
+        shutil.move(file_to_move[0], os.path.join(full_path,'alpha/'))
+        os.chdir(full_path)
+        shutil.rmtree(work_path)
+        return True
+    else:
+        return False
+
+def backtest(file):
+    return True

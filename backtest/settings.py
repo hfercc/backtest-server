@@ -16,7 +16,7 @@ import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+PROJECT_ROOT = os.path.dirname(__file__)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'corsheaders',
-    'utils'
+    'utils',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [  
@@ -182,3 +183,7 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),    #也可以设置seconds=20
     'JWT_AUTH_HEADER_PREFIX': 'JWT',                       #JWT跟前端保持一致，比如“token”这里设置成JWT
 }
+CRONJOBS = [
+    ('*/1 * * * *', 'report.cron.Query', ">>" + os.path.join(BASE_DIR, 'media', "cron_file"))
+]
+
