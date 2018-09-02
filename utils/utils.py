@@ -91,7 +91,7 @@ def backtest(file):
     new_env = os.environ.copy()
     new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
     os.chdir(os.path.join(base_dir, 'pysimulator'))
-    pipe = subprocess.Popen('config.xml' , shell=True, env=new_env).stdout
+    pipe = subprocess.Popen('python2 run.py -c config.xml' , shell=True, env=new_env).stdout
 def clean():
     os.remove(os.path.join(base_dir, 'pysimulator', 'config.xml'))
 
