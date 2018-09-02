@@ -89,7 +89,7 @@ def compile_alpha(report):
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env).stdout
 def backtest(file):
     new_env = os.environ.copy()
-    new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
+    new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/bin'
     new_env['PYTHONPATH'] = '{}/pysimulator/lib:{}/pysimulator/alpha'.format(base_dir, base_dir)
     os.chdir(os.path.join(base_dir, 'pysimulator'))
     pipe = subprocess.Popen('python2 run.py -c config.xml' , shell=True, env=new_env).stdout
