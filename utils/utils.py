@@ -83,12 +83,15 @@ def compile_alpha(report):
         return False
     '''
     new_env = os.environ.copy()
-    new_env['PATH'] = '/usr/local/bin/:/usr/bin/:/bin'
+    new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
     prepare(report)
-    fhandle = open('~/a.txt')
     os.chdir(os.path.join(base_dir, 'pysimulator'))
-    pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, stdout=fhandle, env=new_env).stdout
-    fhandle.close()
+    pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env).stdout
 def backtest(file):
-    os.system('python -c config.xml')
+    new_env = os.environ.copy()
+    new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
+    os.chdir(os.path.join(base_dir, 'pysimulator'))
+    pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env).stdout
+def clean():
+    os.remove(os.path.join(base_dir, 'pysimulator', 'config.xml'))
 
