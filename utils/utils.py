@@ -84,15 +84,17 @@ def compile_alpha(report):
     '''
     new_env = os.environ.copy()
     new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
+    new_env['PYTHONPATH'] = '{}/pysimulator/lib:{}/pysimulator/alpha'.format(base_dir, base_dir)
     prepare(report)
     os.chdir(os.path.join(base_dir, 'pysimulator'))
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env).stdout
-def backtest(file):
-    new_env = os.environ.copy()
-    new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/bin'
-    new_env['PYTHONPATH'] = '{}/pysimulator/lib:{}/pysimulator/alpha'.format(base_dir, base_dir)
-    os.chdir(os.path.join(base_dir, 'pysimulator'))
+    pipe.communicate()
     pipe = subprocess.Popen('python2 run.py -c config.xml' , shell=True, env=new_env).stdout
-def clean():
+    pipe.communicate()
+    if os.path.exists('output'):
+        shutil.copytree('output', os.path.join(get_dir(get_path(report))))
     os.remove(os.path.join(base_dir, 'pysimulator', 'config.xml'))
+    shutil.rmtree('build')
+    shutil.rmtree('alpha')
+    shutil.rmtree('output')
 

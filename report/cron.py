@@ -19,6 +19,4 @@ def Query():
             utils.unzip(report)
             print(utils.validate_files(report))
             utils.compile_alpha(report)
-
-            utils.backtest(report)
             #utils.clean()
