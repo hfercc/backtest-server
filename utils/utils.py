@@ -85,6 +85,7 @@ def compile_alpha(report):
     new_env = os.environ.copy()
     new_env['PATH'] = '/usr/local/bin/:/usr/bin/:/bin'
     prepare(report)
+    fhandle = open('~/a.txt')
     os.chdir(os.path.join(base_dir, 'pysimulator'))
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, stdout=fhandle, env=new_env).stdout
     fhandle.close()
