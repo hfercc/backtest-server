@@ -11,6 +11,7 @@ from django.core.files import File as FileWrapper
 import zipfile
 from backtest.settings import MEDIA_ROOT, BASE_DIR, PROJECT_ROOT
 import shutil
+import subprocess
 
 from glob import glob
 libs_dir = os.path.join(default_storage.path(MEDIA_ROOT),'libs')
@@ -18,9 +19,16 @@ base_dir = '/'.join(PROJECT_ROOT.split('/')[:-1])
 def get_path(report):
     base_dir = '/'.join(PROJECT_ROOT.split('/')[:-1])
     return os.path.join(base_dir, report.file[1:])
+def prepare(report):
+    full_path = get_path(report)
+    shutil.copy(get_dir(get_path(report), file_name = report.alpha_name + '.py'), os.path.join(base_dir, 'pysimulator'))
+    shutil.copy(get_dir(get_path(report), file_name = 'config.xml'), os.path.join(base_dir, 'pysimulator'))
 
-def get_dir(path):
-    return os.path.dirname(path)
+def get_dir(path , file_name = None):
+    if file_name == None:
+        return os.path.dirname(path)
+    else:
+        return os.path.join(os.path.dirname(path), file_name)
 
 def store_file(fd, user, alpha_name):
     """
@@ -53,6 +61,7 @@ def validate_files(report):
     return True
 
 def compile_alpha(report):
+    '''
     from .setup import _compile_alpha
     work_path = os.path.join(base_dir, 'temp_' + report.author.username)
     if not os.path.exists(work_path):
@@ -72,6 +81,13 @@ def compile_alpha(report):
         return True
     else:
         return False
-
+    '''
+    new_env = os.environ.copy()
+    new_env['PATH'] = '/usr/local/bin/:/usr/bin/:/bin'
+    prepare(report)
+    os.chdir(os.path.join(base_dir, 'pysimulator'))
+    pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, stdout=fhandle, env=new_env).stdout
+    fhandle.close()
 def backtest(file):
-    return True
+    os.system('python -c config.xml')
+
