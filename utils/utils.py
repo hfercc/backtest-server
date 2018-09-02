@@ -92,6 +92,8 @@ def compile_alpha(report):
     pipe = subprocess.Popen('python2 run.py -c config.xml' , shell=True, env=new_env)
     pipe.communicate()
     if os.path.exists('output'):
+        if os.path.exists(os.path.join(get_dir(get_path(report)), 'output')):
+            shutil.rmtree(os.path.join(get_dir(get_path(report)), 'output'))
         shutil.copytree('output', os.path.join(get_dir(get_path(report)), 'output'))
     os.remove(os.path.join(base_dir, 'pysimulator', 'config.xml'))
     shutil.rmtree('build')
