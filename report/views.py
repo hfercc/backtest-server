@@ -1,4 +1,4 @@
-from .serializer import ReportsSerializer, ReportsCreateSerializer
+from .serializer import ReportsSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -44,7 +44,7 @@ class ReportsPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class ReportsViewSet(mixins.ListModelMixin,mixins.CreateModelMixin, viewsets.GenericViewSet):
+class ReportsViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     """
     商品列表
     """
@@ -53,16 +53,21 @@ class ReportsViewSet(mixins.ListModelMixin,mixins.CreateModelMixin, viewsets.Gen
     queryset = Report.objects.all()
     serializer_class = ReportsSerializer
     pagination_class = ReportsPagination
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filter_class = ReportsFilter
+    search_fields = ('alpha_name',)
     def get_serializer_class(self):
-        if self.action == "action":
+        if self.action == "create":
             return ReportsCreateSerializer
         else:
             return ReportsSerializer
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save()
         
     def get_queryset(self):
-        return Report.objects.filter(author=self.request.user)
+        queryset = Report.objects.filter(author=self.request.user)
+        return queryset
     #search_fields = ('name')

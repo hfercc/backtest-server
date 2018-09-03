@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from users.models import UserProfile
 from datetime import datetime
 # Create your models here.
 from django.contrib.auth import get_user_model
@@ -13,3 +12,4 @@ class Report(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     add_time = models.DateTimeField(u"添加时间",default=datetime.now)
     error_message = models.CharField(max_length=100, blank=True, default="")
+    #modified_time = models.DateTimeField(u"修改时间", default=datetime.now)

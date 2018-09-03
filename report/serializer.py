@@ -5,9 +5,8 @@ class ReportsSerializer(serializers.ModelSerializer):
         model = Report
         fields = '__all__'
 
+
 class ReportsCreateSerializer(serializers.ModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(read_only=True)
-    status = serializers.IntegerField(read_only=True)
     add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
     class Meta:
         model = Report

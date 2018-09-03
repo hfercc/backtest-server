@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'utils',
     'django_crontab',
+    'file'
 ]
 
 MIDDLEWARE = [  
@@ -73,6 +74,7 @@ CORS_ALLOW_METHODS = (
     'OPTIONS',
     'PATCH',
     'POST',
+    'UPDATE',
     'PUT',
     'VIEW',
 )

@@ -5,7 +5,7 @@ from rest_framework import decorators
 
 from django.db.models import Q
 from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
-from rest_framework import permissions, viewsets,status
+from rest_framework import permissions, viewsets, status, decorators
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 
