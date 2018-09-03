@@ -12,6 +12,7 @@ import zipfile
 from backtest.settings import MEDIA_ROOT, BASE_DIR, PROJECT_ROOT
 import shutil
 import subprocess
+from .xmlparse import get, generate
 
 from glob import glob
 libs_dir = os.path.join(default_storage.path(MEDIA_ROOT),'libs')
@@ -89,6 +90,10 @@ def compile_alpha(report):
     os.chdir(os.path.join(base_dir, 'pysimulator'))
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env)
     pipe.communicate()
+    with open('config.xml') as f:
+        x = get(f.read())
+        x = generate(x)
+        f.write(x)
     pipe = subprocess.Popen('python2 run.py -c config.xml' , shell=True, env=new_env)
     pipe.communicate()
     if os.path.exists('output'):
@@ -99,4 +104,6 @@ def compile_alpha(report):
     shutil.rmtree('build')
     os.remove('alpha/{}.so'.format(report.alpha_name))
     shutil.rmtree('output')
+
+
 

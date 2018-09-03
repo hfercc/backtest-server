@@ -1,4 +1,4 @@
-from .serializer import ReportsSerializer
+from .serializer import ReportsSerializer, ReportsCreateSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -57,7 +57,8 @@ class ReportsViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retr
     filter_class = ReportsFilter
     search_fields = ('alpha_name',)
     def get_serializer_class(self):
-        if self.action == "create":
+        print(self.action)
+        if self.action == "create" or self.action == "update" or self.action == 'partial_update':
             return ReportsCreateSerializer
         else:
             return ReportsSerializer
