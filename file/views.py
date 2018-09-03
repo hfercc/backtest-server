@@ -21,10 +21,8 @@ from .serializer import FileSerializer
 def download_key(request, report_id):
     user = request.user
     files = FileRecord.objects.filter(Q(author=user) | Q(report__report_id=report_id))
-    print(files[0].path)
-    ret = FileResponse(open(files[0].path))
-    print(ret)
-    filename = '/'.join(files[0].path.split('/')[:-1])
-
+    ret = FileResponse(open(files[0].path, 'rb'))
+    filename = files[0].path.split('/')[-1]
+    ret['Content-Type']='application/octet-stream' 
     ret['Content-Disposition'] = 'attachment; filename="%s"' % filename
     return ret

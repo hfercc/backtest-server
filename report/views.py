@@ -57,7 +57,6 @@ class ReportsViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retr
     filter_class = ReportsFilter
     search_fields = ('alpha_name',)
     def get_serializer_class(self):
-        print(self.action)
         if self.action == "create" or self.action == "update" or self.action == 'partial_update':
             return ReportsCreateSerializer
         else:
