@@ -23,6 +23,7 @@ def Query():
                     flag = True
                 except RuntimeError as e:
                     print(e)
+                    print('catch')
             #utils.clean()
             if (flag == True):
                 report.status = 2
