@@ -15,7 +15,8 @@ class ReportsCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         alpha_name = data['alpha_name']
         user = self.context['request'].user
-        queryset = Report.objects.filter(Q(author=user) | Q(alpha_name=alpha_name))
+        queryset = Report.objects.filter(Q(author__exact=user) & Q(alpha_name__exact=alpha_name))
+        print(user, alpha_name, queryset)
         if len(queryset) > 0:
             raise serializers.ValidationError('因子重名！', code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return data
