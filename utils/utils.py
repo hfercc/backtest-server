@@ -105,10 +105,13 @@ def compile_alpha(report):
         if os.path.exists(os.path.join(get_dir(get_path(report)), 'output')):
             shutil.rmtree(os.path.join(get_dir(get_path(report)), 'output'))
         shutil.copytree('output', os.path.join(get_dir(get_path(report)), 'output'))
-    os.remove(os.path.join(base_dir, 'pysimulator', 'config.xml'))
-    shutil.rmtree('build')
-    os.remove('alpha/{}.so'.format(report.alpha_name))
-    shutil.rmtree('output')
+        os.remove(os.path.join(base_dir, 'pysimulator', 'config.xml'))
+        shutil.rmtree('build')
+        os.remove('alpha/{}.so'.format(report.alpha_name))
+        shutil.rmtree('output')
+        return True
+    else:
+        return False
 
 
 
