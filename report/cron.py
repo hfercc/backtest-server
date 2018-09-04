@@ -11,15 +11,21 @@ def Query():
     in_length = len(inprocess_queryset)
     for report in queryset:
         if(in_length < 5):
-            report.status = 0
+            report.status = 1
             report.save()
             print(report.alpha_name, report.file)
             in_length += 1
-
+            flag = False
             utils.unzip(report)
-            print(utils.validate_files(report))
-            try:
-                utils.compile_alpha(report)
-            except:
-                pass
+            if (utils.validate_files(report)):
+                try:
+                    utils.compile_alpha(report)
+                    flag = True
+                except:
+                    pass
             #utils.clean()
+            if (flag == True):
+                report.status = 2
+            else:
+                report.status = 3
+            report.save()
