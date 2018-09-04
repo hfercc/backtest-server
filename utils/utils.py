@@ -47,6 +47,7 @@ def store_file(fd, user, alpha_name):
 
 def unzip(report):
     full_path = get_path(report)
+    print(full_path)
     try:
         f = zipfile.ZipFile(full_path, 'r')
         path_to = get_dir(full_path)
