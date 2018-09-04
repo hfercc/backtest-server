@@ -87,7 +87,7 @@ def compile_alpha(report):
     else:
         return False
     '''
-    new_env = os.environ.copy()
+    new_env = dict()
     new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
     new_env['PYTHONPATH'] = '{}/pysimulator/lib:{}/pysimulator/alpha'.format(base_dir, base_dir)
     prepare(report)
