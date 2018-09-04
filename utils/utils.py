@@ -90,9 +90,10 @@ def compile_alpha(report):
     os.chdir(os.path.join(base_dir, 'pysimulator'))
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env)
     pipe.communicate()
-    with open('config_compile.xml') as f:
+    with open('config_compile.xml', 'w') as f:
         x = get('config.xml')
         x = generate(x)
+        print(x)
         f.write(x)
     pipe = subprocess.Popen('python2 run.py -c config_compile.xml' , shell=True, env=new_env)
     pipe.communicate()
