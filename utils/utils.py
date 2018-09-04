@@ -47,12 +47,15 @@ def store_file(fd, user, alpha_name):
 
 def unzip(report):
     full_path = get_path(report)
-    f = zipfile.ZipFile(full_path, 'r')
-    path_to = get_dir(full_path)
-    for file in f.namelist():
-        if file in ['config.xml','report.pdf', report.alpha_name + '.py']:
-            f.extract(file, path_to)
-    f.close()
+    try:
+        f = zipfile.ZipFile(full_path, 'r')
+        path_to = get_dir(full_path)
+        for file in f.namelist():
+            if file in ['config.xml','report.pdf', report.alpha_name + '.py']:
+                f.extract(file, path_to)
+        f.close()
+    except:
+        pass
 
 def validate_files(report):
     folder = get_dir((get_path(report)))
