@@ -89,7 +89,7 @@ def compile_alpha(report):
     '''
     new_env = dict()
     new_env['PATH'] = '/usr/local/anaconda2/bin:/usr/bin:/bin:/usr/local/binbin'
-    new_env['PYTHONPATH'] = '{}/pysimulator/lib:{}/pysimulator/alpha'.format(base_dir, base_dir)
+    new_env['PYTHONPATH'] = '/home/alpha-service/PySimulator-Research-1.0.0/lib:/home/alpha-service/PySimulator-Research-1.0.0/alpha'
     prepare(report)
     os.chdir(os.path.join(base_dir, 'pysimulator'))
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env)
