@@ -12,7 +12,7 @@ def Query():
     for report in queryset:
         if(in_length < 5):
             report.status = 1
-            report.save()
+            #report.save()
             print(report.alpha_name, report.file)
             in_length += 1
             flag = False
@@ -28,4 +28,4 @@ def Query():
                 report.status = 2
             else:
                 report.status = 3
-            report.save()
+            #report.save()
