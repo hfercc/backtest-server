@@ -21,8 +21,8 @@ def Query():
                 try:
                     utils.compile_alpha(report)
                     flag = True
-                except:
-                    pass
+                except RuntimeError as e:
+                    print(e)
             #utils.clean()
             if (flag == True):
                 report.status = 2
