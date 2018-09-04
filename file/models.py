@@ -5,6 +5,6 @@ User = get_user_model()
 # Create your models here.
 class FileRecord(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    file_id = models.AutoField(primary_key=True, verbose_name=u"文件号")
+    file_id = models.AutoField(primary_key=True)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     path = models.CharField(max_length=100)

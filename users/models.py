@@ -6,9 +6,5 @@ from django.contrib.auth.models import AbstractUser
 class UserProfile(AbstractUser):
     avatar = models.TextField()
 
-    class Meta:
-        verbose_name = u'用户信息'
-        verbose_name_plural = verbose_name
-
     def __unicode__(self):
         return self.username
