@@ -19,8 +19,7 @@ def Query():
             utils.unzip(report)
             if (utils.validate_files(report)):
                 try:
-                    utils.compile_alpha(report)
-                    flag = True
+                    flag = utils.compile_alpha(report)             
                 except RuntimeError as e:
                     print(e)
                     print('catch')
