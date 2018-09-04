@@ -91,7 +91,7 @@ def compile_alpha(report):
     pipe = subprocess.Popen('./compile.sh {}'.format(report.alpha_name + '.py') , shell=True, env=new_env)
     pipe.communicate()
     with open('config.xml') as f:
-        x = get(f.read())
+        x = get('config.xml')
         x = generate(x)
         f.write(x)
     pipe = subprocess.Popen('python2 run.py -c config.xml' , shell=True, env=new_env)
