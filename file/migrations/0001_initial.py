@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FileRecord',
             fields=[
-                ('file_id', models.AutoField(primary_key=True, serialize=False, verbose_name='文件号')),
+                ('file_id', models.AutoField(primary_key=True, serialize=False, verbose_name=u'文件号')),
                 ('path', models.CharField(max_length=100)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('report', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='report.Report')),

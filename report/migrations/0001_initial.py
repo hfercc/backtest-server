@@ -18,11 +18,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Report',
             fields=[
-                ('report_id', models.AutoField(primary_key=True, serialize=False, verbose_name='报告号')),
-                ('file', models.CharField(max_length=100, verbose_name='上传的文件')),
-                ('status', models.IntegerField(default=0, verbose_name='状态')),
-                ('alpha_name', models.CharField(max_length=100, verbose_name='回测名')),
-                ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='添加时间')),
+                ('report_id', models.AutoField(primary_key=True, serialize=False, verbose_name=u'报告号')),
+                ('file', models.CharField(max_length=100, verbose_name=u'上传的文件')),
+                ('status', models.IntegerField(default=0, verbose_name=u'状态')),
+                ('alpha_name', models.CharField(max_length=100, verbose_name=u'回测名')),
+                ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name=u'添加时间')),
                 ('error_message', models.CharField(blank=True, default='', max_length=100)),
                 ('backtest_img', models.CharField(blank=True, default='', max_length=100)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
